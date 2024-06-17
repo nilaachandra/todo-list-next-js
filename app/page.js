@@ -3,19 +3,25 @@
 import Navbar from "@/Components/Navbar";
 import Notes from "@/Components/Notes";
 import Wrapper from "@/Components/Wrapper";
+import axios from "axios";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
 
 export default function Home() {
  const [title, setTitle] = useState('')
- const [notes, setNotes] = useState('')
-
- const handleSubmit = (e) => {
+ const [myNotes, setMyNotes] = useState('')
+const [loading, setLoading] = useState(false)
+ const handleSubmit = async (e) => {
   e.preventDefault()
-  console.log(title, notes)
-  setNotes('')
-  setTitle('')
-  toast.success('Your Notes have been added')
+  setLoading(true)
+  try {
+    const response = await axios.post('/api',{title, myNotes})
+    toast.success(response.data.message)
+  } catch (error) {
+    toast.error('Could Not Add the Note')
+  }
+  console.log({title, myNotes})
+  setLoading(false)
  }
 
   return (
@@ -40,17 +46,17 @@ export default function Home() {
             placeholder="Enter Your Notes"
             className="w-full text-black bg-slate-200 p-2 rounded-md border border-black"
             name="notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            value={myNotes}
+            onChange={(e) => setMyNotes(e.target.value)}
             rows={5}
           ></textarea>
         </label>
         <button className="w-full bg-blue-700 p-2 rounded-md font-bold">
-          Add
+          {loading ? 'Adding' : 'Add'}
         </button>
       </form>
       <h1 className="mt-4 font-bold text-xl">Here Are The notes</h1>
-      <div className="todos w-full flex flex-col gap-2 mt-4">
+      <div className="todos w-full flex flex-col gap-3 mt-4">
         <Notes />
         <Notes />
         <Notes />
