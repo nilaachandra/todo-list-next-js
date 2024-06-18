@@ -8,7 +8,7 @@ const Notes = ({
   key,
   onDelete,
   onEdit,
-  mode,
+
 }) => {
   return (
     <div className="w-full rounded-md bg-slate-200 text-black p-2">

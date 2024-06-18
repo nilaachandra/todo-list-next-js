@@ -96,7 +96,7 @@ export default function Home() {
         ) : (
           notesData?.map((item, index) => (
             <div key={index}>
-              {mode ? (
+              {editMode ? (
                 <div className="w-full rounded-md bg-slate-200 text-black p-2">
 
                 <input type="text" value={p} className="text-lg font-semibold "/>
