@@ -17,6 +17,7 @@ export default function Home() {
   const [currTitle, setCurrTitle] = useState("");
   const [currNote, setCurrNote] = useState("");
   const [currId, setCurrId] = useState("");
+  
   //add notes
   const handleSubmit = async (e) => {
     e.preventDefault();
