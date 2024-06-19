@@ -16,7 +16,8 @@ const Notes = ({
         <h1 className="text-lg font-semibold ">{title}</h1>
         <p className="text-sm mt-1">{description}</p>
         <ul className="flex gap-2 text-sm mt-1">
-          <li className="underline  cursor-pointer hover:text-blue-700 duration-200 transition-all">
+          <li className="underline  cursor-pointer hover:text-blue-700 duration-200 transition-all"
+          onClick={onEdit}>
             Edit
           </li>
           <li

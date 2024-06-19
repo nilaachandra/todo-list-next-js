@@ -31,6 +31,33 @@ export async function POST(request) {
   }
 }
 
+//function to edit notee
+export async function PUT(request) {
+  await connectDB(); // Ensure the database connection
+
+  try {
+    const noteId = request.nextUrl.searchParams.get('id');
+    const { id, title, myNotes } = await request.json(); // Parse request body
+
+    const result = await NotesModel.findByIdAndUpdate(
+      id,
+      { title, myNotes },
+      { new: true } // Return the updated document
+    );
+
+    if (!result) {
+      return NextResponse.json({ message: "Could not edit!" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Note edited successfully", note: result });
+  } catch (error) {
+    console.error("Error editing note:", error);
+    return NextResponse.json(
+      { message: "Server error", error },
+      { status: 500 }
+    );
+  }
+}
 //fucntion to delete notes
 export async function DELETE(request) {
   try {

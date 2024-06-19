@@ -10,11 +10,15 @@ import { Toaster, toast } from "sonner";
 export default function Home() {
   const [title, setTitle] = useState("");
   const [myNotes, setMyNotes] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [notesData, setNotesData] = useState([]);
   const [notesLoading, setNotesLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
 
+  const [currTitle, setCurrTitle] = useState("");
+  const [currNote, setCurrNote] = useState("");
+  const [currId, setCurrId] = useState("");
+  //add notes
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -22,7 +26,7 @@ export default function Home() {
       const response = await axios.post("/api", { title, myNotes });
       toast.success(response.data.message);
     } catch (error) {
-      toast.error("Could Not Add the Note");
+      toast.error("Could Not Add Note");
     }
     console.log({ title, myNotes });
     setLoading(false);
@@ -52,6 +56,29 @@ export default function Home() {
     });
     toast.success(response.data.message);
     fetchNotes();
+  };
+
+  const openModal = (note) => {
+    setEditMode(true);
+    setCurrTitle(note.title);
+    setCurrNote(note.myNotes);
+    setCurrId(note._id);
+  };
+
+  const handleEditNotes = async (id) => {
+    try {
+      const response = await axios.put("/api", {
+        id: id,
+        title: currTitle,
+        myNotes: currNote,
+      });
+      toast.success(response.data.message);
+      fetchNotes(); // Refresh the notes list
+      setEditMode(false)
+    } catch (error) {
+      console.error("Error editing note:", error);
+      toast.error("Could not Edit");
+    }
   };
   return (
     <Wrapper>
@@ -96,37 +123,61 @@ export default function Home() {
         ) : (
           notesData?.map((item, index) => (
             <div key={index}>
-              {editMode ? (
-                <div className="w-full rounded-md bg-slate-200 text-black p-2">
-
-                <input type="text" value={p} className="text-lg font-semibold "/>
-                <p className="text-sm mt-1">{description}</p>
-                <ul className="flex gap-2 text-sm mt-1">
-                  <li className="underline  cursor-pointer hover:text-blue-700 duration-200 transition-all">
-                    Edit
-                  </li>
-                  <li
-                    className="underline cursor-pointer hover:text-blue-700 duration-200 transition-all"
-                    onClick={onDelete}
-                  >
-                    Delete
-                  </li>
-                </ul>
-        
-            </div>
-              ) : (
-                <Notes
-                  createdAt={item.createdAt}
-                  description={item.myNotes}
-                  title={item.title}
-                  id={item._id}
-                  onDelete={() => deleteNotes(item._id)}
-                />
-              )}
+              <Notes
+                createdAt={item.createdAt}
+                description={item.myNotes}
+                title={item.title}
+                id={item._id}
+                onDelete={() => deleteNotes(item._id)}
+                onEdit={() => openModal(item)}
+              />
             </div>
           ))
         )}
       </div>
+      {editMode && (
+        <div className="home p-4 top-0 left-0 bg-opacity-50 flex flex-col gap-2 items-center justify-center fixed h-screen w-full bg-slate-900">
+          <form className="lg:w-1/2 w-full lg:h-1/2 p-3 text-black flex flex-col gap-3 rounded-md bg-slate-200">
+            <label htmlFor="Title">
+              <p className="font-semibold text-lg">Title</p>
+              <input
+                type="text"
+                placeholder="Enter Title"
+                name="Enter Title"
+                className="p-2 text-black bg-slate-200 border rounded-md w-full border-black"
+                value={currTitle}
+                onChange={(e) => setCurrTitle(e.target.value)}
+              />
+            </label>
+            <label htmlFor="Todo">
+              <p className="font-semibold text-lg ">Edit Your Notes</p>
+              <textarea
+                placeholder="Enter Your Notes"
+                className="w-full text-black bg-slate-200 p-2 rounded-md border border-black"
+                name="notes"
+                value={currNote}
+                onChange={(e) => setCurrNote(e.target.value)}
+                rows={5}
+              ></textarea>
+            </label>
+          </form>
+          <div className="flex items-center gap-3">
+            {" "}
+            <button
+              className="p-2 bg-red-500 rounded-md"
+              onClick={() => setEditMode(false)}
+            >
+              Close Editor
+            </button>
+            <button
+              className="p-2 bg-green-600 rounded-md"
+              onClick={() => handleEditNotes(currId)}
+            >
+              Save Notes
+            </button>
+          </div>
+        </div>
+      )}
     </Wrapper>
   );
 }
