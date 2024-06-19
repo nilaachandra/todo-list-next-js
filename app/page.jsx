@@ -1,8 +1,8 @@
 "use client";
 
-import Navbar from "@/Components/Navbar";
-import Notes from "@/Components/Notes";
-import Wrapper from "@/Components/Wrapper";
+import Navbar from "@/components/Navbar";
+import Notes from "@/components/Notes";
+import Wrapper from "@/components/Wrapper";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
