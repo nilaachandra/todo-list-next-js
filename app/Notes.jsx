@@ -10,7 +10,7 @@ const Notes = ({
 
 }) => {
   return (
-    <div className="w-full rounded-md bg-slate-200 text-black p-2">
+    <div className="        w-full rounded-md bg-slate-200 text-black p-2">
 
         <h1 className="text-lg font-semibold ">{title}</h1>
         <p className="text-sm mt-1">{description}</p>
