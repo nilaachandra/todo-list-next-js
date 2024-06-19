@@ -9,7 +9,7 @@ const Navbar = () => {
         <span>27Notes</span>
       </h1>
       <a
-        href=""
+        href="https://github.com/nilaachandra/todo-list-next-js" target="_blank"
         className="text-lg flex items-center gap-2 underline text-blue-600"
       >
         <GoRepoForked />
