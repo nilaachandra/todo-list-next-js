@@ -74,7 +74,7 @@ export default function Home() {
       });
       toast.success(response.data.message);
       fetchNotes(); // Refresh the notes list
-      setEditMode(false)
+      setEditMode(false);
     } catch (error) {
       console.error("Error editing note:", error);
       toast.error("Could not Edit");
