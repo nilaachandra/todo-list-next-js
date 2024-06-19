@@ -81,7 +81,7 @@ export default function Home() {
     }
   };
   return (
-    <Wrapper>
+    <div className='w-full min-h-screen py-4 lg:px-[25vw] px-4 text-white bg-zinc-900'>
       <Toaster duration={2500} position="top-center" />
 
       <Navbar />
@@ -178,6 +178,6 @@ export default function Home() {
           </div>
         </div>
       )}
-    </Wrapper>
+   </div>
   );
 }
