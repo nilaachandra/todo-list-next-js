@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Notes from "@/components/Notes";
+import Navbar from "@/app/Navbar";
+import Notes from "@/app/Notes";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -17,7 +17,7 @@ export default function Home() {
   const [currTitle, setCurrTitle] = useState("");
   const [currNote, setCurrNote] = useState("");
   const [currId, setCurrId] = useState("");
-  
+
   //add notes
   const handleSubmit = async (e) => {
     e.preventDefault();
